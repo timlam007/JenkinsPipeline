@@ -65,6 +65,8 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
+        <version>3.3.0</version> <!-- Specify the desired version here -->
+
 			</plugin>
 		</plugins>
 	</build>
