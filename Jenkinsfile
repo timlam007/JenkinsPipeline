@@ -20,13 +20,13 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.withProject("tinlam-dev") {
-              def buildConfigExists = openshift.selector("bc", "HelloWolrdApp").exists()
+              def buildConfigExists = openshift.selector("bc", "helloworldapp").exists()
 
               if (!buildConfigExists) {
-                openshift.newBuild("--name=HelloWolrdApp", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary")
+                openshift.newBuild("--name=helloworldapp", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary")
               }
 
-              openshift.selector("bc", "HelloWolrdApp").startBuild("--from-file=target/simple-servlet-0.0.1-SNAPSHOT.war", "--follow")
+              openshift.selector("bc", "helloworldapp").startBuild("--from-file=target/simple-servlet-0.0.1-SNAPSHOT.war", "--follow")
             }
           }
         }
@@ -39,14 +39,14 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.withProject("tinlam-dev") {
-              def deployment = openshift.selector("dc", "HelloWolrdApp")
+              def deployment = openshift.selector("dc", "helloworldapp")
 
               if (!deployment.exists()) {
-                openshift.newApp('HelloWolrdApp', "--as-deployment-config").narrow('svc').expose()
+                openshift.newApp('helloworldapp', "--as-deployment-config").narrow('svc').expose()
               }
 
               timeout(time: 5, unit: 'MINUTES') {
-                openshift.selector("dc", "HelloWolrdApp").related('pods').untilEach(1) {
+                openshift.selector("dc", "helloworldapp").related('pods').untilEach(1) {
                   return (it.object().status.phase == "Running")
                 }
               }
