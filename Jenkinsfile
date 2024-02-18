@@ -8,7 +8,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..'
-        git branch: 'openshift-jenkins-pipeline', url: 'https://github.com/saedHasan/JenkinsPipeline.git'
+        git branch: 'openshift-jenkins-pipeline', url: 'https://github.com/timlam007/JenkinsPipeline.git'
 
         sh 'mvn clean package'
       }
